@@ -1,0 +1,18 @@
+services:
+  client:
+    build: client
+    restart: unless-stopped
+    volumes:
+      - ./client/src:/app/src
+    ports:
+      - 5173:5173
+    depends_on:
+      - server
+
+  server:
+    build: server
+    restart: unless-stopped
+    volumes:
+      - ./server:/app
+    ports:
+      - 8000:8000
