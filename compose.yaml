@@ -9,6 +9,15 @@ services:
     depends_on:
       - server
 
+  e2e-tests:
+    entrypoint: "/bin/true"
+    build: e2e-tests
+    network_mode: host
+    depends_on:
+      - client
+    volumes:
+      - ./e2e-tests/tests:/app/tests
+
   server:
     build: server
     restart: unless-stopped

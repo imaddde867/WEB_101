@@ -1,19 +1,11 @@
-// @ts-check
-import { test, expect } from '@playwright/test';
+const { test, expect } = require("@playwright/test");
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('Pressing "Fetch message" shows message.', async ({ page }) => {
+  await page.goto("/");
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  // hydration hack, more on this later on in the course
+  await page.waitForTimeout(1000);
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  await page.getByRole("button", { name: "Fetch message" }).click();
+  await expect(page.getByText("Message is: Hello world!")).toBeVisible();
 });
