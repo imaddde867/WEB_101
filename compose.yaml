@@ -42,5 +42,7 @@ services:
       - ./server:/app
     ports:
       - 8000:8000
+    env_file:
+      - project.env
     depends_on:
       - database
