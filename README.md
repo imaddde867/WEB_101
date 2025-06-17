@@ -1,168 +1,95 @@
 # Personal Website
 
-A modern full-stack personal website built with SvelteKit frontend, Hono backend, and PostgreSQL database. This project demonstrates a complete web development stack with containerized deployment, database migrations, and end-to-end testing.
+> Modern full-stack web application built with SvelteKit, Hono, and PostgreSQL
 
-## 🏗️ Architecture
+[![Tech Stack](https://img.shields.io/badge/SvelteKit-FF3E00?style=flat&logo=svelte&logoColor=white)](https://kit.svelte.dev/)
+[![Tech Stack](https://img.shields.io/badge/Hono-E36002?style=flat&logo=hono&logoColor=white)](https://hono.dev/)
+[![Tech Stack](https://img.shields.io/badge/PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white)](https://postgresql.org/)
+[![Tech Stack](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://docker.com/)
 
-This project follows a microservices architecture with the following components:
+## Overview
 
-- **Frontend**: SvelteKit application with Vite
-- **Backend**: Hono.js API server running on Deno
-- **Database**: PostgreSQL with Flyway migrations
-- **Testing**: Playwright for end-to-end testing
-- **Deployment**: Docker Compose for containerized development
+A containerized full-stack application demonstrating modern web development practices with server-side rendering, API integration, and automated testing.
 
-## 🚀 Tech Stack
+**Architecture:** Frontend (SvelteKit) → Backend (Hono/Deno) → Database (PostgreSQL)
 
-### Frontend
-- **SvelteKit 2.16.0** - Modern web framework with server-side rendering
-- **Svelte 5.0** - Reactive UI framework
-- **Vite 6.2.6** - Fast build tool and development server
+## Tech Stack
 
-### Backend
-- **Hono 4.6.5** - Lightweight web framework for Deno
-- **Deno** - Modern JavaScript/TypeScript runtime
-- **PostgresJS** - PostgreSQL client for JavaScript
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Frontend** | SvelteKit 2.16 + Svelte 5.0 | SSR web framework |
+| **Backend** | Hono 4.6 on Deno | Lightweight API server |
+| **Database** | PostgreSQL 17 + Flyway | Data persistence & migrations |
+| **Testing** | Playwright | End-to-end testing |
+| **DevOps** | Docker Compose | Containerized development |
 
-### Database
-- **PostgreSQL 17.0** - Robust relational database
-- **Flyway 10** - Database migration tool
+## Quick Start
 
-### DevOps & Testing
-- **Docker & Docker Compose** - Containerization and orchestration
-- **Playwright** - End-to-end testing framework
-
-## 📁 Project Structure
-
-```
-├── client/                 # SvelteKit frontend application
-│   ├── src/
-│   │   ├── routes/         # SvelteKit routes
-│   │   ├── lib/            # Shared components and utilities
-│   │   └── app.html        # HTML template
-│   ├── static/             # Static assets
-│   └── package.json        # Frontend dependencies
-├── server/                 # Hono.js backend API
-│   ├── app.js              # Main application file
-│   ├── app-run.js          # Server runner
-│   └── deno.json           # Deno configuration
-├── database-migrations/    # SQL migration files
-│   └── V1__todos.sql       # Initial database schema
-├── e2e-tests/             # End-to-end tests
-│   └── tests/             # Playwright test files
-├── compose.yaml           # Docker Compose configuration
-└── project.env           # Environment variables
-```
-
-## 🛠️ Getting Started
-
-### Prerequisites
-- Docker and Docker Compose
-- Node.js (for local frontend development)
-- Deno (for local backend development)
-
-### Quick Start with Docker
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/imaddde867/WEB_101
-   cd web101
-   ```
-
-2. **Start all services**
-   ```bash
-   docker-compose up -d
-   ```
-
-3. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-
-### Local Development
-
-#### Frontend Development
 ```bash
-cd client
-npm install
-npm run dev
-```
-
-#### Backend Development
-```bash
-cd server
-deno run --allow-net --allow-env app-run.js
-```
-
-## 🧪 Testing
-
-### Run End-to-End Tests
-```bash
-# Start all services first
+# Clone and start all services
+git clone https://github.com/imaddde867/WEB_101
+cd web101
 docker-compose up -d
 
-# Run tests
+# Access application
+# Frontend: http://localhost:5173
+# API: http://localhost:8000
+```
+
+## Project Structure
+
+```
+├── client/           # SvelteKit frontend
+├── server/           # Hono API (Deno)
+├── database-migrations/  # SQL migrations
+├── e2e-tests/        # Playwright tests
+└── compose.yaml      # Docker orchestration
+```
+
+## Development
+
+### Local Setup
+```bash
+# Frontend
+cd client && npm install && npm run dev
+
+# Backend
+cd server && deno run --allow-net --allow-env app-run.js
+```
+
+### Testing
+```bash
+# Start services
+docker-compose up -d
+
+# Run E2E tests
 docker-compose run e2e-tests npx playwright test
 ```
 
-### Test Coverage
-- ✅ Message fetching functionality
-- ✅ API integration testing
-- ✅ Frontend-backend communication
+## API Reference
 
-## 🗄️ Database
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Health check |
+| `/todos` | GET | Fetch todos |
 
-The application uses PostgreSQL with automated migrations via Flyway.
+## Database
 
-### Current Schema
-- **todos** table with id, name, and done fields
+- **PostgreSQL 17** with automated Flyway migrations
+- **Schema**: `todos` table (id, name, done)
+- **Configuration**: See `project.env`
 
-### Running Migrations
-Migrations run automatically when starting the database service via Docker Compose.
+## Deployment
 
-## 🔧 API Endpoints
+```bash
+# Production build
+docker-compose up --build -d
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET    | `/`      | Health check - returns "Hello world!" |
-| GET    | `/todos` | Fetch all todos from database |
-
-## 🌐 Environment Configuration
-
-Key environment variables (configured in `project.env`):
-- Database connection settings
-- Flyway migration configuration
-- PostgreSQL credentials
-
-## 🚀 Deployment
-
-The application is containerized and ready for deployment:
-
-1. **Production Build**
-   ```bash
-   docker-compose -f compose.yaml up --build
-   ```
-
-2. **Environment Setup**
-   - Update `project.env` with production values
-   - Configure database connection strings
-   - Set up proper security credentials
-
-## 🔮 Future Enhancements
-
-This personal website foundation can be extended with:
-- User authentication and authorization
-- Content management system
-- Blog functionality
-- Portfolio showcase
-- Contact forms
-- Social media integration
-- SEO optimization
-- Performance monitoring
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
+# Configure environment
+cp project.env .env.production
+# Update .env.production with production values
+```
 
 ---
 
-Built with ❤️ using modern web technologies
+**Built with modern web technologies**
