@@ -9,6 +9,13 @@ services:
     depends_on:
       - server
 
+  database:
+    container_name: postgresql_database
+    image: postgres:17.0
+    restart: unless-stopped
+    env_file:
+      - project.env
+
   e2e-tests:
     entrypoint: "/bin/true"
     build: e2e-tests
@@ -25,3 +32,5 @@ services:
       - ./server:/app
     ports:
       - 8000:8000
+    depends_on:
+      - database
