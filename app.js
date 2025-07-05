@@ -1,13 +1,11 @@
-const handleRequest = (request) => {
-	const url = new URL (request.url);
-	const params = url.searchParams;
-	if (url.pathname === ('/') && request.method === ('GET')) {
-		return new Response ('Hi there!');
-	} else if (url.pathname === ('/congrats') && request.method === ('GET')) {
-	return new Response(`Congrats, ${params.get("heroOfTheDay")}!`);
-	} else if (url.pathname === ('/lol') && request.method === ('DIDNOT')) {
-	return new Response(`What kind of tree fits in your hand? A palm tree.`);
-	} else {return new Response('Not here.')};
-};
+import { Hono } from "jsr:@hono/hono@4.6.5";
 
-export default handleRequest;
+const app = new Hono();
+
+app.on("GET", "/", (c) => c.text("The starting point."));
+app.on("POST", "/", (c) => c.text("Postman pat."));
+app.on("GET", "/it", (c) => c.text("I think so."));
+app.on("CAT", "/secrets", (c) => c.text("Meow!"));
+app.on("WHATS", "/up", (c) => c.text("A movie!"));
+
+export default app;

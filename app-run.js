@@ -1,3 +1,3 @@
-import handleRequest from "./app.js";
+import app from "./app.js";
 
-Deno.serve({ port: 8000 }, handleRequest);
+Deno.serve(app.fetch);
