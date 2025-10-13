@@ -1,4 +1,4 @@
-<script></script>
+<script>
   import { PUBLIC_API_URL } from "$env/static/public";
 
   let { onQuestionAdded } = $props();
