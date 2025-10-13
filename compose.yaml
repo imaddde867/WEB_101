@@ -10,7 +10,7 @@ services:
       - server
 
   database:
-    container_name: postgresql_database
+    container_name: wsd_project_database
     image: postgres:17.0
     restart: unless-stopped
     env_file:
