@@ -29,7 +29,7 @@ A containerized full-stack application demonstrating modern web development prac
 # Clone and start all services
 git clone https://github.com/imaddde867/WEB_101
 cd web101
-docker-compose up -d
+docker compose up -d
 
 # Access application
 # Frontend: http://localhost:5173
@@ -56,6 +56,40 @@ cd client && npm install && npm run dev
 # Backend
 cd server && deno run --allow-net --allow-env app-run.js
 ```
+
+### Database migrations
+
+The project uses Flyway to run SQL migrations against a PostgreSQL database. A migration has been added to create `courses` and `questions` tables. To run migrations locally (Docker required):
+
+```bash
+docker compose up database-migrations
+```
+
+The migration file is located at `database-migrations/V2__courses_and_questions.sql`.
+
+The new schema includes the following tables:
+
+- `courses` (id SERIAL PRIMARY KEY, name TEXT NOT NULL)
+- `questions` (id SERIAL PRIMARY KEY, course_id INTEGER REFERENCES courses(id) ON DELETE CASCADE, title TEXT NOT NULL, text TEXT NOT NULL, upvotes INTEGER NOT NULL DEFAULT 0)
+
+The server code uses environment variables for database credentials. Do not commit credentials to source.
+
+### API (summary)
+
+All API endpoints are prefixed with `/api` and are served by the Hono app in `server/app.js`.
+
+Courses:
+- `GET /api/courses` - list courses
+- `GET /api/courses/:id` - get a single course
+- `POST /api/courses` - create a course (body: `{ "name": "..." }`, name must be at least 3 characters)
+- `DELETE /api/courses/:id` - delete a course
+
+Questions (per course):
+- `GET /api/courses/:id/questions` - list questions for course
+- `POST /api/courses/:id/questions` - add a question (body: `{ "title": "...", "text": "..." }`, both must be at least 3 characters)
+- `POST /api/courses/:id/questions/:qId/upvote` - increment upvotes
+- `DELETE /api/courses/:id/questions/:qId` - delete a question
+
 
 ### Testing
 ```bash
