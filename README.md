@@ -16,101 +16,82 @@ A containerized full-stack application demonstrating modern web development prac
 ## Tech Stack
 
 | Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Frontend** | SvelteKit 2.16 + Svelte 5.0 | SSR web framework |
-| **Backend** | Hono 4.6 on Deno | Lightweight API server |
-| **Database** | PostgreSQL 17 + Flyway | Data persistence & migrations |
-| **Testing** | Playwright | End-to-end testing |
-| **DevOps** | Docker Compose | Containerized development |
+# WEB 101 – Full‑stack demo
 
-## Quick Start
+SvelteKit frontend, Hono (Deno) API, and PostgreSQL, all wired together with Docker Compose.
+
+## Quick start
 
 ```bash
-# Clone and start all services
+# Clone and boot the stack
 git clone https://github.com/imaddde867/WEB_101
 cd web101
 docker compose up -d
 
-# Access application
+# URLs
 # Frontend: http://localhost:5173
-# API: http://localhost:8000
+# API:      http://localhost:8000
 ```
 
-## Project Structure
+## Database & migrations
 
-```
-├── client/           # SvelteKit frontend
-├── server/           # Hono API (Deno)
-├── database-migrations/  # SQL migrations
-├── e2e-tests/        # Playwright tests
-└── compose.yaml      # Docker orchestration
-```
+- PostgreSQL 17 with Flyway migrations
+- Migrations live in `database-migrations/`
+- This repo includes `V2__courses_and_questions.sql` which creates `courses` and `questions`
 
-## Development
-
-### Local Setup
-```bash
-# Frontend
-cd client && npm install && npm run dev
-
-# Backend
-cd server && deno run --allow-net --allow-env app-run.js
-```
-
-### Database migrations
-
-The project uses Flyway to run SQL migrations against a PostgreSQL database. A migration has been added to create `courses` and `questions` tables. To run migrations locally (Docker required):
+Run migrations:
 
 ```bash
 docker compose up database-migrations
 ```
 
-The migration file is located at `database-migrations/V2__courses_and_questions.sql`.
+The server reads DB credentials from environment variables provided by `project.env` (do not commit secrets elsewhere).
 
-The new schema includes the following tables:
+## API (brief)
 
-- `courses` (id SERIAL PRIMARY KEY, name TEXT NOT NULL)
-- `questions` (id SERIAL PRIMARY KEY, course_id INTEGER REFERENCES courses(id) ON DELETE CASCADE, title TEXT NOT NULL, text TEXT NOT NULL, upvotes INTEGER NOT NULL DEFAULT 0)
+Base URL: `http://localhost:8000`
 
-The server code uses environment variables for database credentials. Do not commit credentials to source.
+Courses
+- GET `/api/courses` — list courses
+- GET `/api/courses/:id` — get a course
+- POST `/api/courses` — create (body: { name }, ≥ 3 chars)
+- DELETE `/api/courses/:id` — delete and return the course
 
-### API (summary)
+Questions (per course)
+- GET `/api/courses/:id/questions` — list questions
+- POST `/api/courses/:id/questions` — create (body: { title, text }, each ≥ 3 chars)
+- POST `/api/courses/:id/questions/:qId/upvote` — +1 upvote
+- DELETE `/api/courses/:id/questions/:qId` — delete and return the question
 
-All API endpoints are prefixed with `/api` and are served by the Hono app in `server/app.js`.
+## Local development
 
-Courses:
-- `GET /api/courses` - list courses
-- `GET /api/courses/:id` - get a single course
-- `POST /api/courses` - create a course (body: `{ "name": "..." }`, name must be at least 3 characters)
-- `DELETE /api/courses/:id` - delete a course
-
-Questions (per course):
-- `GET /api/courses/:id/questions` - list questions for course
-- `POST /api/courses/:id/questions` - add a question (body: `{ "title": "...", "text": "..." }`, both must be at least 3 characters)
-- `POST /api/courses/:id/questions/:qId/upvote` - increment upvotes
-- `DELETE /api/courses/:id/questions/:qId` - delete a question
-
-
-### Testing
 ```bash
-# Start services
-docker-compose up -d
+# Frontend (SvelteKit)
+cd client && npm install && npm run dev
 
-# Run E2E tests
-docker-compose run e2e-tests npx playwright test
+# API server (Deno + Hono)
+cd server && deno run --allow-net --allow-env app-run.js
 ```
 
-## API Reference
+## Layout
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Health check |
-| `/todos` | GET | Fetch todos |
+```
+client/                 # SvelteKit app
+server/                 # Hono app (exports default Hono instance in app.js)
+database-migrations/    # SQL migrations (Flyway)
+compose.yaml            # Docker Compose
+```
 
-## Database
+## Testing (optional)
 
-- **PostgreSQL 17** with automated Flyway migrations
-- **Schema**: `todos` table (id, name, done)
+```bash
+docker compose up -d
+docker compose run e2e-tests npx playwright test
+```
+
+—
+
+Built with a pragmatic, lightweight stack for fast iteration.
 - **Configuration**: See `project.env`
 
 ## Deployment
