@@ -46,20 +46,28 @@
   }
 </script>
 
-<div class="container mx-auto p-8 max-w-3xl">
+<div class="container mx-auto p-8 max-w-4xl">
   {#if course}
-    <h1 class="h1 mb-8">{course.name}</h1>
+    <div class="mb-8 text-center">
+      <h1 class="h1 mb-2">{course.name}</h1>
+      <p class="text-surface-600-300-token">Course ID: {courseId}</p>
+    </div>
 
-    <div class="card p-6 mb-8">
-      <h2 class="h2 mb-4">Add Question</h2>
+    <div class="card p-6 mb-8 bg-primary-50 dark:bg-primary-900/20">
+      <h2 class="h3 mb-4">Add New Question</h2>
       <QuestionForm {courseId} onQuestionAdded={fetchQuestions} />
     </div>
 
     <div class="card p-6">
-      <h2 class="h2 mb-4">Questions</h2>
+      <h2 class="h3 mb-6">Questions</h2>
       <QuestionList {questions} onUpvote={handleUpvote} onDelete={handleDelete} />
     </div>
   {:else}
-    <p class="text-center text-error-500">Course not found</p>
+    <div class="card p-8 text-center">
+      <p class="text-error-500 text-xl">Course not found</p>
+      <a href="/courses" class="btn variant-filled-primary mt-4">
+        Back to Courses
+      </a>
+    </div>
   {/if}
 </div>

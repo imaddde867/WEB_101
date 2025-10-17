@@ -45,13 +45,13 @@
 </script>
 
 <div class="container mx-auto p-8 max-w-3xl">
-  <h1 class="h1 mb-8">Courses</h1>
+  <h1 class="h1 mb-8 text-center">Courses</h1>
 
-  <div class="card p-6 mb-8">
-    <h2 class="h2 mb-4">Add Course</h2>
+  <div class="card p-6 mb-8 bg-primary-50 dark:bg-primary-900/20">
+    <h2 class="h3 mb-4">Add New Course</h2>
     <form onsubmit={addCourse} class="space-y-4">
       <label class="label" for="name">
-        <span>Course Name</span>
+        <span class="font-semibold">Course Name</span>
         <input 
           class="input" 
           id="name" 
@@ -68,13 +68,14 @@
   </div>
 
   <div class="card p-6">
+    <h2 class="h3 mb-4">Available Courses</h2>
     {#if courses.length === 0}
-      <p class="text-center text-surface-500 py-4">No courses yet. Add one above!</p>
+      <p class="text-center text-surface-500 py-8">No courses yet. Add one above!</p>
     {:else}
-      <ul class="list space-y-2">
+      <ul class="list space-y-3">
         {#each courses as course (course.id)}
-          <li>
-            <a href="/courses/{course.id}" class="anchor">
+          <li class="card p-4 hover:bg-surface-200-700-token transition-colors">
+            <a href="/courses/{course.id}" class="anchor text-lg font-medium">
               {course.name}
             </a>
           </li>
