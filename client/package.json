@@ -10,10 +10,18 @@
 		"prepare": "svelte-kit sync || echo ''"
 	},
 	"devDependencies": {
+		"@skeletonlabs/skeleton": "^2.10.2",
+		"@skeletonlabs/tw-plugin": "^0.4.0",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.47",
 		"svelte": "^5.0.0",
+		"tailwindcss": "^3.4.14",
 		"vite": "^6.2.6"
+	},
+	"dependencies": {
+		"@floating-ui/dom": "^1.6.11"
 	}
 }
