@@ -3,12 +3,16 @@
   import TodoList from "./TodoList.svelte";
 </script>
 
-<h1>Todos</h1>
+<div class="container mx-auto p-8 max-w-3xl">
+  <h1 class="h1 mb-8 text-center">Todos</h1>
 
-<h2>Add Todo</h2>
+  <div class="card p-6 mb-8">
+    <h2 class="h2 mb-4">Add Todo</h2>
+    <TodoForm />
+  </div>
 
-<TodoForm />
-
-<h2>Existing todos</h2>
-
-<TodoList />
+  <div class="card p-6">
+    <h2 class="h2 mb-4">Existing todos</h2>
+    <TodoList />
+  </div>
+</div>
