@@ -68,7 +68,6 @@
   </div>
 
   <div class="card p-6">
-    <h2 class="h3 mb-4">Available Courses</h2>
     {#if courses.length === 0}
       <p class="text-center text-surface-500 py-8">No courses yet. Add one above!</p>
     {:else}
