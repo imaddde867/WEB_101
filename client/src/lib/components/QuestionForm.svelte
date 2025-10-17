@@ -1,7 +1,7 @@
 <script>
   import { PUBLIC_API_URL } from "$env/static/public";
 
-  let { onQuestionAdded } = $props();
+  let { courseId, onQuestionAdded } = $props();
 
   const addQuestion = async (e) => {
     e.preventDefault();
@@ -11,7 +11,7 @@
       text: formData.get("text")
     };
 
-    const response = await fetch(`${PUBLIC_API_URL}/courses/1/questions`, {
+    const response = await fetch(`${PUBLIC_API_URL}/api/courses/${courseId}/questions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -26,14 +26,32 @@
   };
 </script>
 
-<form onsubmit={addQuestion}>
-  <div>
-    <label for="title">Title</label>
-    <input id="title" name="title" type="text" placeholder="Enter question title" required />
-  </div>
-  <div>
-    <label for="text">Text</label>
-    <textarea id="text" name="text" placeholder="Enter question text" required></textarea>
-  </div>
-  <input type="submit" value="Add Question" />
+<form onsubmit={addQuestion} class="space-y-4">
+  <label class="label" for="title">
+    <span>Title</span>
+    <input 
+      class="input" 
+      id="title" 
+      name="title" 
+      type="text" 
+      placeholder="Enter question title" 
+      required 
+    />
+  </label>
+  
+  <label class="label" for="text">
+    <span>Text</span>
+    <textarea 
+      class="textarea" 
+      id="text" 
+      name="text" 
+      placeholder="Enter question text" 
+      required
+      rows="4"
+    ></textarea>
+  </label>
+  
+  <button type="submit" class="btn variant-filled-primary w-full">
+    Add Question
+  </button>
 </form>

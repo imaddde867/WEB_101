@@ -1,10 +1,12 @@
 <script>
   import { PUBLIC_API_URL } from "$env/static/public";
-  import QuestionForm from "./QuestionForm.svelte";
-  import QuestionList from "./QuestionList.svelte";
+  import QuestionForm from "$lib/components/QuestionForm.svelte";
+  import QuestionList from "$lib/components/QuestionList.svelte";
 
-  let { courseId = 1 } = $props();
-  let questions = $state([]);
+  let { data } = $props();
+  let questions = $state(data.questions || []);
+  let course = $state(data.course);
+  let courseId = data.courseId;
 
   async function fetchQuestions() {
     try {
@@ -42,22 +44,22 @@
       console.error("Error deleting question:", error);
     }
   }
-
-  $effect(() => {
-    fetchQuestions();
-  });
 </script>
 
 <div class="container mx-auto p-8 max-w-3xl">
-  <h1 class="h1 mb-8">Questions</h1>
+  {#if course}
+    <h1 class="h1 mb-8">{course.name}</h1>
 
-  <div class="card p-6 mb-8">
-    <h2 class="h2 mb-4">Add Question</h2>
-    <QuestionForm {courseId} onQuestionAdded={fetchQuestions} />
-  </div>
+    <div class="card p-6 mb-8">
+      <h2 class="h2 mb-4">Add Question</h2>
+      <QuestionForm {courseId} onQuestionAdded={fetchQuestions} />
+    </div>
 
-  <div class="card p-6">
-    <h2 class="h2 mb-4">Existing Questions</h2>
-    <QuestionList {questions} onUpvote={handleUpvote} onDelete={handleDelete} />
-  </div>
+    <div class="card p-6">
+      <h2 class="h2 mb-4">Questions</h2>
+      <QuestionList {questions} onUpvote={handleUpvote} onDelete={handleDelete} />
+    </div>
+  {:else}
+    <p class="text-center text-error-500">Course not found</p>
+  {/if}
 </div>

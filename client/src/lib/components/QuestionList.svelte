@@ -5,11 +5,13 @@
 </script>
 
 {#if questions.length === 0}
-  <p>No questions yet.</p>
+  <p class="text-center text-surface-500 py-4">No questions yet. Add one above!</p>
 {:else}
-  <div>
+  <ul class="list space-y-4">
     {#each questions as question (question.id)}
-      <QuestionItem {question} {onUpvote} {onDelete} />
+      <li>
+        <QuestionItem {question} {onUpvote} {onDelete} />
+      </li>
     {/each}
-  </div>
+  </ul>
 {/if}
